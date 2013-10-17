@@ -1,0 +1,47 @@
+/**
+ * $Author$
+ * $Date$
+ * $Revision$
+ * 
+ * @copyright Copyright (c) 2013 Krzysztof Sobieraj (http://www.sobieraj.mobi)
+ * @license   Commercial
+ * @package   xbootstrap
+ */
+
+.nav-stacked .dropdown-menu {
+    background-clip: inherit;
+    background-color: inherit;
+    border: medium none;
+    box-shadow: inherit;
+    float: none;
+    font-size: 0.95em;
+    left: auto;
+    margin: 0;
+    min-width: inherit;
+    padding-left: 10px;
+    position: inherit;
+    top: auto;
+    z-index: inherit;
+}
+.nav-stacked.nav-expanded .dropdown-menu {
+    display: block;
+}
+.nav-stacked .dropdown-menu > li > a {
+    border-radius: 5px 5px 5px 5px;
+    color: #428BCA;
+    padding: 3px 3px 3px 30px;
+    white-space: normal;
+}
+.nav-stacked .dropdown-menu > li > a:hover,
+.nav-stacked .dropdown-menu > li > a:focus{
+    background-color: #EEEEEE;
+    color: #428BCA;
+}
+.nav-stacked .dropdown-menu > .active > a,
+.nav-stacked .dropdown-menu > .active > a:hover,
+.nav-stacked .dropdown-menu > .active > a:focus {
+    background-color: #428BCA;
+    color: #FFFFFF;
+    outline: 0 none;
+    text-decoration: none;
+}
