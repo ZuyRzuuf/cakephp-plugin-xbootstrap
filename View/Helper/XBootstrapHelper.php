@@ -18,7 +18,8 @@ App::uses('AppHelper', 'View/Helper');
  * css_prepend   : css jest ładowany jako pierwszy w bloku
  */
 class XBootstrapHelper extends AppHelper {
-    private $_settings = array('css_autoload' => false);
+    private $_settings = array('css_autoload' => false, 
+                               'js_autoload' => false);
     
     private $_inputDefaults = array();
     
