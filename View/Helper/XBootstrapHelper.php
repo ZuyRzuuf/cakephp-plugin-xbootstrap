@@ -29,6 +29,8 @@ class XBootstrapHelper extends AppHelper {
         $this->_settings = array_merge($settings, $this->_settings);
         if(array_key_exists('css_autoload', $settings))
             $this->_settings['css_autoload'] = $settings['css_autoload'];
+        if(array_key_exists('js_autoload', $settings))
+            $this->_settings['js_autoload'] = $settings['js_autoload'];
     }
 
     public function beforeLayout($layoutFile) {
@@ -43,6 +45,10 @@ class XBootstrapHelper extends AppHelper {
                 $this->_View->append($this->_settings['css_container'], $this->Html->css('XBootstrap.bootstrap.min'));
                 $this->_View->append($this->_settings['css_container'], $this->Html->css('XBootstrap.style'));
             }
+        }
+        if($this->_settings['js_autoload'] && array_key_exists('js_container', $this->_settings)) {
+            $this->_View->append($this->_settings['js_container'], $this->Html->script('XBootstrap.bootstrap.min'));
+            $this->_View->append($this->_settings['js_container'], $this->Html->script('XBootstrap.xbootstrap'));
         }
     }
 
