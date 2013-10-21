@@ -102,9 +102,20 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
 
-    public function carousel($id = null, $elements = array(), $icon_prev = 'icon-prev', $icon_next = 'icon-next')
+    public function carousel($elements = array(), $settings = array())
     {
-        if(!isset($id)) return false;
+        $icon_next = 'icon-next';
+        $icon_prev = 'icon-prev';
+        $id = 'carousel';
+                
+        if(empty($elements)) return false;
+        
+        if(array_key_exists('icon_next', $settings))
+            $icon_next = $settings['icon_next'];
+        if(array_key_exists('icon_prev', $settings))
+            $icon_prev = $settings['icon_prev'];
+        if(array_key_exists('id', $settings))
+            $id = $settings['id'];
         
         $html = $this->_View->element('XBootstrap.carousel', array('id' => $id, 
                                                                    'elements' => $elements, 
@@ -188,6 +199,7 @@ class XBootstrapHelper extends AppHelper {
     
     public function formInput($settings = array())
     {
+        $empty = null;
         $field = null;
         $html = '';
         $label = array();
@@ -214,9 +226,46 @@ class XBootstrapHelper extends AppHelper {
         if(array_key_exists('type', $settings)) {
             $options['type'] = $settings['type'];
         }
+        if(array_key_exists('empty', $settings)) {
+            $options['empty'] = $settings['empty'];
+        }
+        if(array_key_exists('field_width', $settings)) {
+            $options['between'] = '<div class="' . $settings['field_width'] . '">';
+        }
 //        debug($options);
         
         $html = $this->Form->input($settings['field'], $options);
+        
+        return $html;
+    }
+    
+    public function formSubmit($settings = array())
+    {
+        $class = null;
+        $field = null;
+        $html = '';
+        $offset = null;
+        $text = null;
+        $type = 'btn';
+        $view = null;
+        
+        if(empty($settings) || (!array_key_exists('text', $settings))) return false;
+        
+        if(array_key_exists('type', $settings)) {
+            $type = $settings['type'];
+        }
+        if(array_key_exists('view', $settings)) {
+            $view = ' ' . $settings['view'];
+        }
+        if(array_key_exists('offset', $settings)) {
+            $offset = ' ' . $settings['offset'];
+        }
+        if(array_key_exists('class', $settings)) {
+            $class = ' ' . $settings['class'];
+        }
+        $options['class'] = $type . $view . $offset . $class;
+        
+        $html = $this->Form->submit(__($settings['text']), $options);
         
         return $html;
     }
