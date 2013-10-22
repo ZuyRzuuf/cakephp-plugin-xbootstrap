@@ -104,6 +104,7 @@ class XBootstrapHelper extends AppHelper {
 
     public function carousel($elements = array(), $settings = array())
     {
+        $anchor = 'image';
         $icon_next = 'icon-next';
         $icon_prev = 'icon-prev';
         $id = 'carousel';
@@ -116,8 +117,36 @@ class XBootstrapHelper extends AppHelper {
             $icon_prev = $settings['icon_prev'];
         if(array_key_exists('id', $settings))
             $id = $settings['id'];
+        if(array_key_exists('anchor', $settings)) {
+            if($settings['anchor'] == 'title')
+                $anchor = 'title';
+            elseif($settings['anchor'] == 'content')
+                $anchor = 'content';
+        }
         
-        $html = $this->_View->element('XBootstrap.carousel', array('id' => $id, 
+        for($i = 0; $i < count($elements); $i++) {
+            if(array_key_exists('url', $elements[$i])) {
+                if(!is_array($elements[$i]['url'])) {
+                    if($elements[$i]['url'][0] == '/') $elements[$i]['url'] = substr($elements[$i]['url'], 1);
+                    $url = explode('/', $elements[$i]['url']);
+                    $elements[$i]['url'] = array('controller' => $url[0], 'action' => $url[1]);
+                    if(count($url > 2)) {
+                        for($j = 2; $j < count($url); $j++) {
+                            if(strpos($url[$j], ':') !== false) {
+                                $param = explode(':', $url[$j]);
+                                $elements[$i]['url'][$param[0]] = $param[1];
+                            }
+                            else {
+                                $elements[$i]['url'][$j] = $url[$j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        $html = $this->_View->element('XBootstrap.carousel', array('anchor' => $anchor, 
+                                                                   'id' => $id, 
                                                                    'elements' => $elements, 
                                                                    'icon_prev' => $icon_prev, 
                                                                    'icon_next' => $icon_next));
