@@ -1,12 +1,11 @@
 <?php
 /**
- * $Author$
- * $Date$
- * $Revision$
+ * $Author: xathloc $
+ * $Date: 2013-09-05 17:30:37 +0200 (Cz) $
+ * $Revision: 704 $
  * 
  * @copyright Copyright (c) 2013 Krzysztof Sobieraj (http://www.sobieraj.mobi)
  * @license   Commercial
- * @package   xbootstrap
  */
 
 App::uses('AppHelper', 'View/Helper');
@@ -53,12 +52,18 @@ class XBootstrapHelper extends AppHelper {
         }
     }
 
-    public function button($settings = array())
+    public function button($text = null, $settings = array())
     {
-        if(!array_key_exists('text', $settings) && (!array_key_exists('icon', $settings))) return false;
+        if(!isset($text)) return false;
         
-        (array_key_exists('text', $settings)) ? $text = $settings['text'] : $text = null;
+//        if(!array_key_exists('text', $settings) && (!array_key_exists('icon', $settings))) return false;
+        if(!$text && (!array_key_exists('icon', $settings))) return false;
+        
+//        (array_key_exists('text', $settings)) ? $text = $settings['text'] : $text = null;
+        if(!$text) $text = null;
+        
         (array_key_exists('icon', $settings)) ? $icon = $settings['icon'] : $icon = false;
+        
         if(array_key_exists('icon_position', $settings) && array_key_exists('icon', $settings)) {
             ($settings['icon_position'] == 'right') ? $icon_position = 'right' : $icon_position = 'left';
         }
@@ -102,6 +107,7 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
 
+//    public function carousel($id = null, $elements = array(), $icon_prev = 'icon-prev', $icon_next = 'icon-next')
     public function carousel($elements = array(), $settings = array())
     {
         $anchor = 'image';
@@ -110,6 +116,7 @@ class XBootstrapHelper extends AppHelper {
         $id = 'carousel';
                 
         if(empty($elements)) return false;
+//        if(!isset($id)) return false;
         
         if(array_key_exists('icon_next', $settings))
             $icon_next = $settings['icon_next'];
@@ -145,6 +152,8 @@ class XBootstrapHelper extends AppHelper {
             }
         }
         
+//        debug($settings);
+        
         $html = $this->_View->element('XBootstrap.carousel', array('anchor' => $anchor, 
                                                                    'id' => $id, 
                                                                    'elements' => $elements, 
@@ -167,25 +176,36 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
 
-//    public function formCreate($model = null, $labelWidth = null, $fieldWidth = null, $type = null)
-    public function formCreate($settings = array())
+    public function formCreate($model = null, $settings = array())
     {
         $field_width = 'col-lg-10';
         $label_width = 'col-lg-2';
         $type = 'horizontal';
         
-        if(empty($settings) || !array_key_exists('model', $settings)) return false;
-        $model = $settings['model'];
-//        if($labelWidth == null) $labelWidth = 'col-lg-2';
-//        if($fieldWidth == null) $fieldWidth = 'col-lg-10';
+//        if(empty($settings) || !array_key_exists('model', $settings)) return false;
+        if(!isset($model)) return false;
         
         if(array_key_exists('field_width', $settings)) $field_width = $settings['field_width'];
         if(array_key_exists('label_width', $settings)) $label_width = $settings['label_width'];
         if(array_key_exists('type', $settings)) $type = $settings['type'];
         
         $this->_inputDefaults['label'] = array('class' => $label_width . ' control-label');
+        $this->_inputDefaults['between'] = array('class' => $field_width);
         
-        if($type == 'inline') {
+        if($type == 'block') {
+            $this->_inputDefaults['label'] = array('class' => 'control-label');
+            
+            $html = $this->Form->create($model, array(
+                'class' => 'form', 
+                'role' => 'form',
+                'inputDefaults' => array(
+                    'format' => array('before', 'label', 'input', 'error', 'after'),
+                    'div' => array('class' => 'form-group'),
+                    'class' => array('form-control'),
+                    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline')),
+                )));
+        }
+        else if($type == 'inline') {
             $html = $this->Form->create($model, array(
                 'class' => 'form-inline', 
                 'role' => 'form',
@@ -226,59 +246,86 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
     
-    public function formInput($settings = array())
+//    public function formInput($settings = array())
+    public function formInput($field = null, $settings = array())
     {
         $empty = null;
-        $field = null;
+//        $field = null;
+        $field_class = null;
         $html = '';
         $label = array();
         $options = array();
         $type = null;
         
-        if(empty($settings) || (!array_key_exists('field', $settings))) return false;
+//        if(empty($settings) || (!array_key_exists('field', $settings))) return false;
 //        debug($settings);
+        if(!isset($field)) return false;
         
         if(array_key_exists('label', $settings)) {
-            $label['text'] = $settings['label'];
+            if($settings['label'] === null) {
+                $label['class'] = 'hidden';
+                $label['text'] = false;
+            }
+            else {
+                $label['text'] = $settings['label'];
+                if(array_key_exists('label_class', $settings)) {
+                     $label['class'] = $settings['label_class'];
+                }
+                else if(array_key_exists('class', $this->_inputDefaults['label'])) {
+                    $label['class'] = $this->_inputDefaults['label']['class'];
+                }
+            }
         }
-        
-        if(array_key_exists('label_class', $settings)) {
-             $label['class'] = $settings['label_class'];
-        }
-        else if(array_key_exists('class', $this->_inputDefaults['label'])) {
-            $label['class'] = $this->_inputDefaults['label']['class'];
-        }
-        
 //        debug($this->_inputDefaults);
         
         if(!empty($label)) $options['label'] = $label;
+        
         if(array_key_exists('type', $settings)) {
             $options['type'] = $settings['type'];
         }
+        
         if(array_key_exists('empty', $settings)) {
             $options['empty'] = $settings['empty'];
         }
-        if(array_key_exists('field_width', $settings)) {
-            $options['between'] = '<div class="' . $settings['field_width'] . '">';
+        
+        if(array_key_exists('field_width', $settings) || array_key_exists('field_class', $settings)) {
+            if(array_key_exists('field_width', $settings)) 
+                $field_width = $settings['field_width'];
+            else 
+                $field_width = $this->_inputDefaults['between']['class'];
+            
+            if(array_key_exists('field_class', $settings)) 
+                    $field_class = $settings['field_class'];
+            
+            if(isset($field_class) || isset($field_width))
+                $options['between'] = '<div class="' . $field_width . ' ' . $field_class . '">';
+            else
+                $options['between'] = '<div>';
         }
+        
+        if(array_key_exists('options', $settings))
+            $options['options'] = $settings['options'];
+        
 //        debug($options);
         
-        $html = $this->Form->input($settings['field'], $options);
+//        $html = $this->Form->input($settings['field'], $options);
+        $html = $this->Form->input($field, $options);
         
         return $html;
     }
     
-    public function formSubmit($settings = array())
+    public function formSubmit($text = null, $settings = array())
     {
         $class = null;
         $field = null;
         $html = '';
         $offset = null;
-        $text = null;
+//        $text = null;
         $type = 'btn';
         $view = null;
         
-        if(empty($settings) || (!array_key_exists('text', $settings))) return false;
+//        if(empty($settings) || (!array_key_exists('text', $settings))) return false;
+        if(!isset($text)) return false;
         
         if(array_key_exists('type', $settings)) {
             $type = $settings['type'];
@@ -294,7 +341,7 @@ class XBootstrapHelper extends AppHelper {
         }
         $options['class'] = $type . $view . $offset . $class;
         
-        $html = $this->Form->submit(__($settings['text']), $options);
+        $html = $this->Form->submit($text, $options);
         
         return $html;
     }

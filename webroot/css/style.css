@@ -1,12 +1,10 @@
-/**
- * $Author$
- * $Date$
- * $Revision$
- * 
- * @copyright Copyright (c) 2013 Krzysztof Sobieraj (http://www.sobieraj.mobi)
- * @license   Commercial
- * @package   xbootstrap
- */
+/* 
+    Document   : style.css
+    Created on : 2013-10-16, 14:24:47
+    Author     : Xathloc
+    Description:
+        Purpose of the stylesheet follows.
+*/
 
 .nav-stacked .dropdown-menu {
     background-clip: inherit;
