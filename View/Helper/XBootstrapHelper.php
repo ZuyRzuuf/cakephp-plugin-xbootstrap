@@ -361,8 +361,7 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
 
-//    public function nav($urls = null, $type = 'tabs', $id = null, $class = null)
-    public function nav($settings = array())
+    public function nav($urls = array(), $settings = array())
     {
         $active = false;
         $class = null;
@@ -372,7 +371,8 @@ class XBootstrapHelper extends AppHelper {
         $stacked = null;
         $type = 'tabs';
         
-        if(empty($settings) || (!array_key_exists('urls', $settings))) return false;
+        if(empty($urls)) return false;
+//        if(empty($settings) || (!array_key_exists('urls', $settings))) return false;
 //        debug($settings);
         
         if(array_key_exists('class', $settings)) $class = $settings['class'];
@@ -383,7 +383,8 @@ class XBootstrapHelper extends AppHelper {
             if($settings['stacked'] === true) $stacked = 'nav-stacked';
         if(array_key_exists('type', $settings)) $type = $settings['type'];
         
-        foreach ($settings['urls'] as $element) {
+        foreach ($urls as $element) {
+//        foreach ($settings['urls'] as $element) {
 //            debug($element);
 
             if(!array_key_exists('dropdown', $element)) {
