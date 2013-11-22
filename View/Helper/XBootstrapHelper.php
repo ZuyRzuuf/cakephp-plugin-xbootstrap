@@ -288,6 +288,14 @@ class XBootstrapHelper extends AppHelper {
             $options['empty'] = $settings['empty'];
         }
         
+        if(array_key_exists('class', $settings)) {
+            $options['class'] = $settings['class'];
+        }
+        
+        if(array_key_exists('placeholder', $settings)) {
+            $options['placeholder'] = $settings['placeholder'];
+        }
+        
         if(array_key_exists('field_width', $settings) || array_key_exists('field_class', $settings)) {
             if(array_key_exists('field_width', $settings)) 
                 $field_width = $settings['field_width'];
