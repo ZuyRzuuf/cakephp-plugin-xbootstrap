@@ -5,6 +5,15 @@
     Description:
         Purpose of the stylesheet follows.
 */
+.alert-overlay {
+    box-shadow: 1px 1px 3px #999999;
+    left: 50%;
+    margin-left: -400px;
+    position: absolute;
+    top: 20px;
+    width: 800px;
+    z-index: 1001;
+}
 
 .nav-stacked .dropdown-menu {
     background-clip: inherit;
