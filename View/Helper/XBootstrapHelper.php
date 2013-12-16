@@ -268,11 +268,14 @@ class XBootstrapHelper extends AppHelper {
             }
             else {
                 $label['text'] = $settings['label'];
-                if(array_key_exists('label_class', $settings)) {
-                     $label['class'] = $settings['label_class'];
+                if(array_key_exists('label_width', $settings)) {
+                    $label['class'] = $settings['label_width'] . ' control-label';
                 }
                 else if(array_key_exists('class', $this->_inputDefaults['label'])) {
                     $label['class'] = $this->_inputDefaults['label']['class'];
+                }
+                if(array_key_exists('label_class', $settings)) {
+                     $label['class'] = $label['class'] . ' ' . $settings['label_class'];
                 }
             }
         }
