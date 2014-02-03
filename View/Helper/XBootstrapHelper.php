@@ -357,17 +357,31 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
     
-    public function modal($modal_id = null, $modal_label = null, $text_save = null, $text_close = null)
+    
+    public function icon($icon, $settings = array())
     {
-        if(!isset($modal_id)) $modal_id = 'x_bootstrap-main-modal';
-        if(!isset($modal_label)) $modal_label = 'Modal';
-        if(!isset($text_save)) $text_save = 'Zapisz';
-        if(!isset($text_close)) $text_close = 'Zamknij';
+        (array_key_exists('set', $settings)) ? $set = $settings['set'] : $set = 'glyphicon';
+        (array_key_exists('class', $settings)) ? $class = ' ' . $settings['class'] : $class = '';
+        (array_key_exists('id', $settings)) ? $id = 'id="' . $settings['id'] . '"' : $id = '';
+                
+        $html = '<span '.$id.' class="'.$set.' '.$set.'-'.$icon.$class.'"></span>';
+        
+        return $html;
+    }
+    
+    public function modal($settings = array())
+    {
+        (array_key_exists('modal_id', $settings)) ? $modal_id = $settings['modal_id'] : $modal_id = 'x_bootstrap-main-modal';
+        (array_key_exists('modal_label', $settings)) ? $modal_label = $settings['modal_label'] : $modal_label = 'Modal';
+        (array_key_exists('text_save', $settings)) ? $text_save = $settings['text_save'] : $text_save = 'Zapisz';
+        (array_key_exists('text_close', $settings)) ? $text_close = $settings['text_close'] : $text_close = 'Zamknij';
+        (array_key_exists('template_file', $settings)) ? $template_file = $settings['template_file'] : $template_file = false;
         
         $html = $this->_View->element('XBootstrap.modal', array('id' => $modal_id, 
                                                                 'label' => $modal_label, 
                                                                 'text_save' => $text_save, 
-                                                                'text_close' => $text_close ));
+                                                                'text_close' => $text_close, 
+                                                                'template_file' => $template_file ));
         
         return $html;
     }
