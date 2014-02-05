@@ -357,7 +357,21 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
     
-    
+    public function groupCounter($input_name = null, $settings = array())
+    {
+        (array_key_exists('component_id', $settings)) ? $component_id = 'id="'.$settings['component_id'].'"' : $component_id = null;
+        (array_key_exists('input_id', $settings)) ? $input_id = 'id="'.$settings['input_id'].'"' : $input_id = null;
+        (array_key_exists('counter_max', $settings)) ? $counter_max = $settings['counter_max'] : $counter_max = null;
+        (array_key_exists('counter_min', $settings)) ? $counter_min = $settings['counter_min'] : $counter_min = null;
+        $html = $this->_View->element('XBootstrap.group_counter', array('component_id' => $component_id,
+                                                                        'input_id' => $input_id,
+                                                                        'input_name' => $input_name,
+                                                                        'counter_max' => $counter_max,
+                                                                        'counter_min' => $counter_min,));
+        
+        return $html;
+    }
+
     public function icon($icon, $settings = array())
     {
         (array_key_exists('set', $settings)) ? $set = $settings['set'] : $set = 'glyphicon';

@@ -52,3 +52,27 @@
     outline: 0 none;
     text-decoration: none;
 }
+
+.input-group-counter {}
+.input-group-counter .form-control {
+    border-right: medium none;
+    height: 28px;
+    padding-right: 5px;
+    text-align: right;
+}
+.input-group-counter .input-group-btn {
+}
+.input-group-counter .input-group-btn .btn {
+    border-radius: 0;
+    display: block;
+    font-size: 1em;
+    line-height: 1;
+    margin-left: 0;
+    padding: 0 2px;
+}
+.input-group-counter .input-group-btn .btn.btn-count-up {
+}
+.input-group-counter .input-group-btn .btn.btn-count-down {
+    padding-left: 1px;
+    padding-right: 2px;
+}

@@ -18,6 +18,7 @@ var XBootstrap = {
         if(jQuery('.alert-dismissable').size() > 0) {
             XBootstrap.Alert.dismiss();
         }
+        XBootstrap.GroupCounter.init();
     },
             
     Alert : {
@@ -34,6 +35,29 @@ var XBootstrap = {
             }, parseInt(timeout));
         }
     },
+    
+    GroupCounter : {
+        config : {},
+                
+        init : function() {
+            jQuery('.input-group-counter').find('.btn-count').on('click', function() {
+                qty = parseInt(jQuery(this).parents('.input-group-counter').find('.input-group-counter-value').val());
+                max = parseInt(jQuery(this).parents('.input-group-counter').find('.input-group-counter-max').text());
+                if(jQuery(this).parents('.input-group-counter').find('.input-group-counter-min').text() != '')
+                    min = parseInt(jQuery(this).parents('.input-group-counter').find('.input-group-counter-min').text());
+                else
+                    min = 1;
+                if(jQuery(this).hasClass('btn-count-up')) {
+                    if(qty < max)
+                        jQuery(this).parents('.input-group-counter').find('.input-group-counter-value').val(qty + 1);
+               }
+                if(jQuery(this).hasClass('btn-count-down')) {
+                    if(qty > min)
+                        jQuery(this).parents('.input-group-counter').find('.input-group-counter-value').val(qty - 1);
+               }
+            });
+        }
+    }
 }
 
 jQuery(document).ready(function() {
