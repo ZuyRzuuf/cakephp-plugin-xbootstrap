@@ -176,6 +176,29 @@ class XBootstrapHelper extends AppHelper {
         return $html;
     }
 
+    public function formCheckbox($field = null, $options = array(), $settings = array())
+    {
+        $field_class = null;
+        $html = '';
+        
+        if(!isset($field)) return false;
+        (array_key_exists('type', $settings)) ? $type = $settings['type'] : $type = $this->_inputDefaults['type'];
+        (array_key_exists('label', $settings)) ? $label = $settings['label'] : $label = null;
+        
+        (array_key_exists('class', $settings)) ? $class = $settings['class'] : $class = null;
+        
+//        if($type == 'block') {
+            $html .= '<div class="checkbox ' . $class . '">';
+            $html .= '<label>';
+            $html .= $this->Form->checkbox($field, $options);
+            $html .= $label;
+            $html .= '</label>';
+            $html .= '</div>';
+//        }
+        
+        return $html;
+    }
+    
     public function formCreate($model = null, $settings = array())
     {
         $field_width = 'col-lg-10';
@@ -321,6 +344,37 @@ class XBootstrapHelper extends AppHelper {
         
 //        $html = $this->Form->input($settings['field'], $options);
         $html = $this->Form->input($field, $options);
+        
+        return $html;
+    }
+    
+    public function formRadio($field = null, $options = array(), $settings = array())
+    {
+        $attributes = array();
+        $field_class = null;
+        $html = '';
+        
+        if(!isset($field)) return false;
+        if(empty($options)) return false;
+        (array_key_exists('type', $settings)) ? $type = $settings['type'] : $type = $this->_inputDefaults['type'];
+        (array_key_exists('label', $settings)) ? $label = $settings['label'] : $label = null;
+        
+        if(array_key_exists('default', $settings)) $attributes['value'] = $settings['default'];
+        (array_key_exists('legend', $settings)) ? $attributes['legend'] = $settings['legend'] : $attributes['legend'] = false;
+        if(array_key_exists('separator', $settings)) $attributes['separator'] = $settings['separator'];
+        if(array_key_exists('between', $settings)) $attributes['between'] = $settings['between'];
+        if(array_key_exists('before', $settings)) $attributes['before'] = $settings['before'];
+        if(array_key_exists('disabled', $settings)) $attributes['disabled'] = $settings['disabled'];
+        
+        if($type == 'block') {
+            $html .= '<div class="form-group">';
+            if(isset($label))
+                $html .= $this->Form->label($field, $label, array());
+            $html .= '<div class="form-radio-options">';
+            $html .= $this->Form->radio($field, $options, $attributes);
+            $html .= '</div>';
+            $html .= '</div>';
+        }
         
         return $html;
     }
